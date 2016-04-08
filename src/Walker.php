@@ -67,12 +67,13 @@ class Walker
             return $schema;
         }
 
+        $clearBaseSchema = false;
         if (!$this->resolver->hasBaseSchema()) {
             $this->resolver->setBaseSchema($schema, $uri);
+            $clearBaseSchema = true;
         }
 
         $inScope = false;
-
         if (property_exists($schema, 'id') && is_string($schema->id)) {
             $this->resolver->enter(new Uri($schema->id));
             $inScope = true;
@@ -99,6 +100,10 @@ class Walker
 
         if ($inScope) {
             $this->resolver->leave();
+        }
+
+        if ($clearBaseSchema) {
+            $this->resolver->clearBaseSchema();
         }
 
         return $schema;

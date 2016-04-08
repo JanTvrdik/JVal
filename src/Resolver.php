@@ -74,6 +74,20 @@ class Resolver
     }
 
     /**
+     * Clears current schema.
+     *
+     * @throws EmptyStackException
+     */
+    public function clearBaseSchema()
+    {
+        if (count($this->stack) === 0) {
+            throw new EmptyStackException();
+        }
+
+        $this->stack = [];
+    }
+
+    /**
      * Returns the URI of the current schema.
      *
      * @return Uri
